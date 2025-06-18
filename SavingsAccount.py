@@ -1,24 +1,33 @@
-from Account import Account
-
-class SavingsAccount(Account):
-    def __init__(self, balance=0):
-        super().__init__(balance)
-        self.withdrawal_limit = 50000
+from Account import Account 
+class SavingsAccount:
+    def __init__(self, owner, balance=0.0, interest_rate=0.02):
+        self.owner = owner
+        self.balance = balance
+        self.interest_rate = interest_rate  # 2% by default
 
     def deposit(self, amount):
         if amount > 0:
             self.balance += amount
-            return f"Deposited N{amount} to Savings Account."
-        return "Deposit amount must be greater than zero."
+            print(f"Deposited ${amount:.2f}. New balance: ${self.balance:.2f}")
+        else:
+            print("Deposit amount must be positive.")
 
     def withdraw(self, amount):
-        if amount > self.withdrawal_limit:
-            return f"Cannot make withdraw more than{self.withdrawal_limit} ."
-        elif amount <= self.balance:
+        if 0 < amount <= self.balance:
             self.balance -= amount
-            return f"Withdrew N{amount} from Savings Account."
+            print(f"Withdrew ${amount:.2f}. New balance: ${self.balance:.2f}")
         else:
-            return " error insufficient funds ."
+            print("Invalid withdrawal amount or insufficient funds.")
+
+    def apply_interest(self):
+        interest = self.balance * self.interest_rate
+        self.balance += interest
+        print(f"Interest of ${interest:.2f} applied. New balance: ${self.balance:.2f}")
 
     def get_balance(self):
         return self.balance
+
+    def __str__(self):
+        return f"SavingsAccount(owner='{self.owner}', balance=${self.balance:.2f})"
+
+
